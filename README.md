@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# AttendGuard
 
-First, run the development server:
+AttendGuard adalah aplikasi presensi karyawan berbasis Next.js App Router, React, TypeScript, Bootstrap, dan MySQL.
 
-```bash
+## Kebutuhan
+
+- Node.js 20.9 atau lebih baru
+- npm
+- Laragon dengan MySQL aktif
+- Database `attendguard` beserta tabel yang diperlukan
+
+## Menjalankan aplikasi
+
+1. Jalankan MySQL melalui Laragon.
+2. Pastikan database `attendguard` sudah tersedia.
+3. Pastikan `lib/db.ts` menggunakan koneksi MySQL lokal Laragon.
+4. Pastikan `.env.local` memiliki `SESSION_SECRET` yang kuat dan rahasia.
+
+Pasang dependency dan jalankan aplikasi:
+
+```sh
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Membuat akun admin
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Atur variabel `ADMIN_USERNAME` dan `ADMIN_PASSWORD` di lingkungan proses. Password admin harus minimal 12 karakter.
 
-## Learn More
+Kemudian jalankan:
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+node --env-file=.env.local scripts/create-admin.js
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Skrip membuat akun admin baru. Username yang sudah ada tidak dapat digunakan kembali oleh skrip ini.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Struktur utama
 
-## Deploy on Vercel
+- `app/`: halaman dan API aplikasi.
+- `lib/db.ts`: koneksi MySQL.
+- `lib/auth.ts`: autentikasi pengguna.
+- `lib/session.ts`: pengelolaan sesi.
+- `scripts/`: skrip administrasi.
+- `public/`: aset statis dan file unggahan.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Perintah
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev`: menjalankan server pengembangan.
+- `npm run lint`: menjalankan ESLint.
+- `npm run build`: membuat build produksi.
+- `npm run start`: menjalankan build produksi.
+
+## Data dan keamanan
+
+- Jangan memasukkan password atau rahasia sesi ke Git.
+- Cadangkan database MySQL secara berkala.
+- Cadangkan file unggahan yang diperlukan.
+- Jangan menjalankan skrip pembuatan admin jika tidak ingin menambahkan akun baru.
